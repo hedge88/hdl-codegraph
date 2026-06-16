@@ -1,0 +1,18 @@
+[package]
+name = "hdl-graph-parse"
+version = "0.2.0"
+edition = "2021"
+description = "CST traversal and graph node extraction"
+
+[dependencies]
+hdl-graph-core = { path = "../hdl-graph-core" }
+hdl-graph-grammar = { path = "../hdl-graph-grammar" }
+hdl-graph-storage = { path = "../hdl-graph-storage" }
+tree-sitter = "0.25"
+anyhow = "1"
+
+[dev-dependencies]
+tempfile = "3"
+
+[lib]
+name = "hdl_graph_parse"

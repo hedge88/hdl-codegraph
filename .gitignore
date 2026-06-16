@@ -1,0 +1,34 @@
+/target
+**/*.rs.bk
+.hdl-graph/db/
+.hdl-graph/metadata.db
+.vscode/
+*.swp
+*.swo
+.DS_Store
+__pycache__/
+*.pyc
+
+# Build & vendor (regenerable, too large for git)
+vendor/
+target/
+*.tar.gz
+
+# Offline artifacts
+rust-toolchain-offline/rustup-init
+
+# External test fixtures (download separately)
+tests/external_fixtures/
+
+# Backup files
+*.bak
+
+# rmcp-sdk git history (embedded source only)
+rmcp-sdk/.git/
+
+# Generated parser (regenerate with: tree-sitter generate)
+# Note: parser.c is committed for users without tree-sitter installed
+# Uncomment to exclude: crates/hdl-graph-grammar/grammar/src/parser.c
+
+# Local project state
+.hdl-graph/

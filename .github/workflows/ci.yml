@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Check formatting
+        run: cargo fmt --check
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: Clippy
+        run: cargo clippy -- -D warnings
+        continue-on-error: true
+
+      - name: Build
+        run: cargo build --verbose
+
+      - name: Run tests
+        run: cargo test --verbose --workspace
+
+      - name: SCIP export (if available)
+        run: |
+          cargo run -p hdl-graph-cli -- index --project /tmp/sv_regression 2>/dev/null || true
+          cargo run -p hdl-graph-cli -- export scip /tmp/hdl-graph.scip 2>/dev/null || true
+        continue-on-error: true
+
+  # Pre-compile grammar parser for faster builds
+  prebuild-grammar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install tree-sitter CLI
+        run: npm install -g tree-sitter-cli
+
+      - name: Regenerate parser.c from grammar.js
+        run: |
+          cd crates/hdl-graph-grammar/grammar
+          tree-sitter generate
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prebuilt-parser
+          path: crates/hdl-graph-grammar/grammar/src/parser.c
+
+  # Fuzz testing
+  fuzz:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install cargo-fuzz
+        run: cargo install cargo-fuzz
+      - name: Fuzz parse
+        run: cargo fuzz run parse_fuzz -- -max_total_time=60
+        continue-on-error: true

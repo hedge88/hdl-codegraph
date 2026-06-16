@@ -1,0 +1,34 @@
+# Build stage: compile hdl-graph in Rocky Linux 8.9 compatible environment
+FROM rockylinux:8.9 AS builder
+
+# Install build dependencies
+RUN dnf install -y gcc gcc-c++ cmake make clang-devel llvm-devel curl git \
+    && dnf clean all
+
+# Install Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+RUN rustup default stable
+
+# Copy source
+WORKDIR /build
+COPY . .
+
+# Fetch grammar (download from npm)
+RUN cd crates/hdl-graph-grammar && \
+    curl -sL "$(npm view tree-sitter-systemverilog@0.3.1 dist.tarball)" -o /tmp/grammar.tgz && \
+    tar -xzf /tmp/grammar.tgz -C /tmp && \
+    cp /tmp/package/src/parser.c grammar/src/parser.c && \
+    cp /tmp/package/src/tree_sitter/parser.h grammar/src/tree_sitter/parser.h && \
+    cp /tmp/package/src/tree_sitter/alloc.h grammar/src/tree_sitter/ 2>/dev/null; \
+    cp /tmp/package/src/tree_sitter/array.h grammar/src/tree_sitter/ 2>/dev/null; \
+    cp /tmp/package/queries/highlights.scm grammar/queries/; \
+    rm -rf /tmp/package /tmp/grammar.tgz
+
+# Build release binary
+RUN cargo build --release -p hdl-graph-cli
+
+# Runtime stage: minimal image with just the binary
+FROM rockylinux:8.9
+COPY --from=builder /build/target/release/hdl-graph /usr/local/bin/hdl-graph
+CMD ["hdl-graph"]

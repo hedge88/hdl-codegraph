@@ -1,0 +1,11 @@
+[package]
+name = "hdl-graph-types"
+version = "0.2.0"
+edition = "2021"
+description = ""
+
+[dependencies]
+
+[lib]
+name = "hdl_graph_types"
+path = "src/lib.rs"

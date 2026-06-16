@@ -1,0 +1,65 @@
+{
+  "name": "hdl-graph",
+  "displayName": "HDL Code Graph",
+  "description": "Verilog/SystemVerilog/UVM code intelligence — go-to-definition, references, hierarchy, UVM support",
+  "version": "0.2.0",
+  "publisher": "hdl-graph",
+  "license": "MIT",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Programming Languages", "Linters", "Visualization"],
+  "activationEvents": [
+    "onLanguage:systemverilog",
+    "onLanguage:verilog",
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "systemverilog",
+        "aliases": ["SystemVerilog", "SV"],
+        "extensions": [".sv", ".svh"],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "verilog",
+        "aliases": ["Verilog", "vlog"],
+        "extensions": [".v", ".vh"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "commands": [
+      { "command": "hdl-graph.showHierarchy", "title": "HDL Graph: Show Module Hierarchy" },
+      { "command": "hdl-graph.showCallGraph", "title": "HDL Graph: Show Call Graph" },
+      { "command": "hdl-graph.showTLMConnections", "title": "HDL Graph: Show TLM Connections" },
+      { "command": "hdl-graph.resetIndex", "title": "HDL Graph: Reset Index" }
+    ],
+    "configuration": {
+      "title": "HDL Code Graph",
+      "properties": {
+        "hdl-graph.binaryPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to hdl-graph binary (leave empty for auto-download)"
+        },
+        "hdl-graph.includeDirs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["rtl", "tb", "sim"],
+          "description": "Include directories for SV file discovery"
+        },
+        "hdl-graph.uvmHome": {
+          "type": "string",
+          "default": "",
+          "description": "Path to UVM library source"
+        },
+        "hdl-graph.defines": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "Pre-processor defines (e.g., \"UVM_NO_DPI\")"
+        }
+      }
+    }
+  }
+}

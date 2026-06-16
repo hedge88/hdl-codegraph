@@ -1,0 +1,27 @@
+{
+  "comments": { "lineComment": "//", "blockComment": ["/*", "*/"] },
+  "brackets": [
+    ["{", "}"], ["[", "]"], ["(", ")"], ["begin", "end"],
+    ["case", "endcase"], ["module", "endmodule"],
+    ["class", "endclass"], ["interface", "endinterface"],
+    ["package", "endpackage"], ["generate", "endgenerate"],
+    ["function", "endfunction"], ["task", "endtask"],
+    ["property", "endproperty"], ["sequence", "endsequence"],
+    ["checker", "endchecker"], ["config", "endconfig"]
+  ],
+  "autoClosingPairs": [
+    { "open": "{", "close": "}" },
+    { "open": "[", "close": "]" },
+    { "open": "(", "close": ")" },
+    { "open": "\"", "close": "\"", "notIn": ["string"] }
+  ],
+  "surroundingPairs": [
+    { "open": "'{", "close": "}" },
+    { "open": "\"", "close": "\"" }
+  ],
+  "wordPattern": "(-?\\d+\\.?\\w*)|([A-Za-z_][A-Za-z0-9_$]*)",
+  "indentationRules": {
+    "increaseIndentPattern": "^\\s*(module|class|interface|package|function|task|begin|case|generate|if|else|for|while|repeat|forever|fork|initial|always|always_comb|always_ff|always_latch|property|sequence|checker|config|covergroup|clocking)\\b",
+    "decreaseIndentPattern": "^\\s*(endmodule|endclass|endinterface|endpackage|endfunction|endtask|end|endcase|endgenerate|endproperty|endsequence|endchecker|endconfig|endgroup|endclocking)\\b"
+  }
+}

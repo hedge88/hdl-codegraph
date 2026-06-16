@@ -1,0 +1,11 @@
+[package]
+name = "hdl-graph-build"
+version = "0.2.0"
+edition = "2021"
+description = ""
+
+[dependencies]
+
+[lib]
+name = "hdl_graph_build"
+path = "src/lib.rs"

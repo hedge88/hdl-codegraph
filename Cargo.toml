@@ -1,0 +1,15 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/hdl-graph-core",
+    "crates/hdl-graph-grammar",
+    "crates/hdl-graph-parse",
+    "crates/hdl-graph-build",
+    "crates/hdl-graph-storage",
+    "crates/hdl-graph-query",
+    "crates/hdl-graph-lsp",
+    "crates/hdl-graph-web",
+    "crates/hdl-graph-cli",
+    "crates/hdl-graph-types",
+    "crates/hdl-graph-mcp",
+]

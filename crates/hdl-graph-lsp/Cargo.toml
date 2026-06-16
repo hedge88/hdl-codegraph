@@ -1,0 +1,19 @@
+[package]
+name = "hdl-graph-lsp"
+version = "0.2.0"
+edition = "2021"
+description = "LSP server for HDL Code Graph"
+
+[dependencies]
+hdl-graph-core = { path = "../hdl-graph-core" }
+hdl-graph-parse = { path = "../hdl-graph-parse" }
+hdl-graph-query = { path = "../hdl-graph-query" }
+hdl-graph-storage = { path = "../hdl-graph-storage" }
+tower-lsp = "0.20"
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+anyhow = "1"
+tracing = "0.1"
+
+[lib]
+name = "hdl_graph_lsp"

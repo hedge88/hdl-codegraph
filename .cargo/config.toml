@@ -1,0 +1,11 @@
+# 离线构建配置 - 指向本地 vendor/ 目录
+# 使 cargo 无需网络即可编译
+
+[source.crates-io]
+replace-with = "vendored-sources"
+
+[source.vendored-sources]
+directory = "vendor"
+
+[net]
+offline = true

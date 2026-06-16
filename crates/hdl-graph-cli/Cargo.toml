@@ -1,0 +1,28 @@
+[package]
+name = "hdl-graph-cli"
+version = "0.2.0"
+edition = "2021"
+description = "HDL Code Graph CLI �?Verilog/SystemVerilog/UVM code intelligence"
+
+[dependencies]
+hdl-graph-core = { path = "../hdl-graph-core" }
+hdl-graph-grammar = { path = "../hdl-graph-grammar" }
+hdl-graph-lsp = { path = "../hdl-graph-lsp" }
+hdl-graph-parse = { path = "../hdl-graph-parse" }
+hdl-graph-query = { path = "../hdl-graph-query" }
+hdl-graph-storage = { path = "../hdl-graph-storage" }
+clap = { version = "4", features = ["derive", "env"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+anyhow = "1"
+toml = "0.8"
+walkdir = "2"
+notify = "7"
+sha2 = "0.10"
+
+[[bin]]
+name = "hdl-graph"
+path = "src/main.rs"
